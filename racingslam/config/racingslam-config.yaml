@@ -1,0 +1,63 @@
+odometry:
+  world_frame_name: world
+  car_frame_name: car
+  lidar_frame_name: rslidar
+  tf_listener_time_limit: 3.0                     # unit: second
+  odom_track_topic: /racingslam/odom_track
+  odom_track_visualization_topic: /racingslam/odom_track_visualization
+
+  ndt:
+    frame_name: odom_ndt
+    topic: /rslidar_points
+    min_diff: 0.01                                # 收敛变换差异
+    step: 0.1                                     # 搜索步长
+    resolutoin: 1.0                               # 体素大小 (m)
+    max_iter: 55                                  # 最大迭代次数
+
+  icp:
+    frame_name: odom_icp
+    cone_topic: /perception/lidar/cone_side
+    point_cloud_topic: /rslidar_points
+    min_dis2update: 1                           #icp算法的最大对应距离
+    max_dis2pass: 4.0                             #由于雷达检测误差，认定移除椎桶的最大阈值
+    max_iterations: 1000.0                        #icp算法的最大迭代次数
+    convergence_condition: 0.00000001             #icp算法收敛条件
+    min_pointcloud_num: 10.0                      #最少匹配点云数量
+
+mapping:
+  reg_range: 100                                 # 单次配准最大锥桶匹配范围 102.25 = 1.5^2 + ((3-1)*5)^2 三对锥桶
+  min_update_count: 60                            #椎桶进入地图的最小匹配次数
+  max_reg_dis: 1.5                                #当两椎桶位置小于此距离时，认为这两个椎桶为同一个椎桶
+  min_cone_distance: 1.8                          #进行椎桶过滤时，将小于该距离的两个椎桶进行过滤
+  loop_detection_timer_count: 10                  # 回环检测，当距离重新变大时减小 timer，减小该值后判断回环
+  loop_detection_dis: 1.5                           #回环检测范围（m）
+  lidar2cog_length: 1.79                           #雷达到质心的长度 A10为2.4，A03旧车为1.79，A03新车为
+  time_match_tolerance: 0.02                       #时间戳匹配误差
+  max_cache_frames: 1000                            #匹配列表储存长度
+
+  res_sub_topic: /res_and_ami
+  cone_sub_topic: /perception/fusion/cone_fusion
+  state_sub_topic: /estimation/slam/state
+
+  map_pub_topic: /estimation/slam/new_map                  #全局地图发布话题
+  realtime_map_pub_topic: /estimation/slam/realtime_map       #实时地图发布，消息类型为 ConeDetection
+  gps_line_pub_topic: /estimation/slam/gps_line          #实时gpsline发布话题
+  global_gps_line_pub_topic: /estimation/slam/global_gps_line #全局gpsline发布话题
+  fix_acc_track_pub_topic: /estimation/slam/fix_acc_track #拟合后的直线加速轨迹话题
+  skid_path_pub_topic: /control/skidpad                   #八字绕环全局线话题
+
+  map_visualization_pub_topic: /visualization/slam/map        #实时地图可视化发布，消息类型为 Map  
+  realtime_map_visualization_pub_topic: /visualization/slam/realtime_map        #实时地图可视化发布，消息类型为 Map  
+  track_visualization_pub_topic: /visualization/slam/track
+  current_visual_cone_detections_pub_topic: /visualization/slam/cone_detections
+
+  dis_to_erase: 3.8
+
+  visualization_frame_id: world
+  odom_track_switch: false                        #里程计轨迹开关
+  map_save_path: /home/scutracing/25_ros_ws/map/      #地图文件存储路径
+  map_load_switch: false                           #使用全局地图开关
+  center_load_switch: true                         #使用中心线开关
+  running_mode: track                               #赛项 acc为直线加速 track为循迹 skid为八字
+  acc_distance: 70.0                                #直线加速距离
+  fix_acc_track_length: 80.0                       #直线拟合长度

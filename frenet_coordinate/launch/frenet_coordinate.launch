@@ -1,0 +1,6 @@
+<launch>
+    <node name="frenet_coordinate_node" pkg="frenet_coordinate" type="frenet_coordinate" output="screen">
+        <rosparam command="load" file="$(find frenet_coordinate)/config/frenet_coordinate.yaml" /> <!--Load parameters from config files-->
+    </node>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find frenet_coordinate)/rviz_config/frenet.rviz" /> 
+</launch>

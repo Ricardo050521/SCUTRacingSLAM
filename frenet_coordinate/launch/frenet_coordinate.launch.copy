@@ -1,0 +1,6 @@
+<launch>
+    <node name="frenet_coordinate_node" pkg="frenet_coordinate" type="frenet_coordinate" output="screen">
+        <rosparam command="load" file="$(find frenet_coordinate)/config/frenet_coordinate.yaml" /> <!--Load parameters from config files-->
+    </node>
+    <node pkg="rosbag" type="play" name="player" output="log"  args="-r 4 /home/aracing/2022-07-14-18-49-53.bag"/>
+</launch>

@@ -1,0 +1,48 @@
+# Subscriber
+
+global_map_topic_name: /estimation/slam/new_map
+
+gps_centerline_topic_name: /estimation/slam/state #车辆质心位置的话题
+
+slam_state_topic_name: /estimation/slam/state
+
+
+frenet_coordinate_compute_time_topic_name: /frenet_coordinate_compute_time1
+
+
+#fssim
+slam_map_topic_name: /estimation/slam/map_fssim
+
+
+# Publisher
+
+frenet_coordinate_topic_name: /planning/new_global_center_path
+
+
+frame_id: world
+
+
+# Params
+
+#max_iter_num: 30
+
+evaluation_threshold: 1
+dis_evaluation_weight: 0.5 
+centre_evaluation_weight: 0.5
+discrete_dis: 2
+jump_points: 5
+record_dis: 0.05
+start_dis: 20  # 闭合时车辆最短里程
+end_dis: 2  # 闭合最大间距
+change_angle_rate: 0.9
+change_reference_rate: 1.01
+
+node_rate: 40  # [Herz]
+
+map_load_switch: false #是否选择使用保存的地图 true为是，false为否
+
+is_start_switch: true #是否需要启动frenet节点，默认为true，第一圈直接跑全局线则为false
+
+load_frenet_cones_from_file: false # 是否需要修改锥桶，用于解决中心线打结，需要修改则为true
+
+center_line_save_path: /home/ricardo/map/      #中心线文件存储路径

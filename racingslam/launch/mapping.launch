@@ -1,0 +1,8 @@
+<launch>
+    <rosparam command="load" file="$(find racingslam)/config/racingslam-config.yaml"  ns="racingslam"/>
+
+    <node name="mapping_node" pkg="racingslam" type="mapping_node" output="screen" ns="racingslam"/>
+
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find racingslam)/rviz_cfg/mapping_rslidar.rviz" /> 
+
+</launch>
